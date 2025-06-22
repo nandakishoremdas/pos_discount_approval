@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--POS Orderline customization-->
+<templates id="template" xml:space="preserve">
+    <t t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <xpath expr="//li[@class='price-per-unit']" position="after">
+            <li t-if="!line.discount_approved and line.price !== 0 and line.requested_disc and line.requested_disc !== '0'">
+                Requested discount <em><t t-esc="line.requested_disc" />% </em>
+            </li>
+        </xpath>
+
+        <xpath expr="//ul[@class='info-list ms-2']/li[3]" position="replace">
+            <li t-if="line.price !== 0 and line.discount and line.discount !== '0'">
+                Approved <em><t t-esc="line.discount" />% </em> discount
+            </li>
+        </xpath>
+    </t>
+</templates>

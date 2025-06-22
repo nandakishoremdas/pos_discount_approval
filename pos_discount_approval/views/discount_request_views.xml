@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_discount_request_tree" model="ir.ui.view">
+        <field name="name">discount.request.tree</field>
+        <field name="model">discount.request</field>
+        <field name="arch" type="xml">
+            <tree string="Discount Requests">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_discount_request_form" model="ir.ui.view">
+        <field name="name">discount.request.form</field>
+        <field name="model">discount.request</field>
+        <field name="arch" type="xml">
+            <form string="Discount Request">
+                <header>
+                    <button name="action_discount_submit" type="object"
+                        icon="fa-wrench" string="Submit" class="oe_highlight"
+                        groups="pos_discount_approval.group_pos_discount_manager"
+                        help="On submitting: A badge on the POS pops-up to
+                        inform the cashier about the approval"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Request Lines">
+                            <field name="request_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="discount"/>
+                                    <button name="action_approve_discount_line" type="object"
+                                    icon="fa-wrench" string="Approve" invisible="stage == 'approved'"
+                                    groups="pos_discount_approval.group_pos_discount_manager"/>
+                                    <field name="stage"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_discount_request_view" model="ir.actions.act_window">
+        <field name="name">Discount Request</field>
+        <field name="res_model">discount.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_discount_request_all"
+              name='Discount Request'
+              parent="point_of_sale.menu_point_config_product"
+              action="action_discount_request_view"/>
+
+</odoo>
